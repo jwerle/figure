@@ -8,6 +8,7 @@
     "module",
     "auto load"
   ],
+  "preferGlobal" : true,
   "author": "Jospeh Werle <joseph.werle@gmail.com>",
   "scripts" : {
     "test" : "make test"
