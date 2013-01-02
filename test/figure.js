@@ -50,7 +50,7 @@ puts
   ("Starting figure test");
 
 // Test a lone figure
-fig = new figure.Figure('test/soldier');
+fig = new figure.Figure('tmp/soldier');
 
 // Make sure it was created properly
 assert.ok(fig instanceof figure.Figure, "Something went wrong while creating a figure");
@@ -64,7 +64,7 @@ warn
 // Attempt to create;
 fig.create(function(){
   // Was it really created?
-  wasFigureCreated(null, 'test/soldier');
+  wasFigureCreated(null, 'tmp/soldier');
 
   puts
     ("Lone figure created");
@@ -88,7 +88,7 @@ fig.create(function(){
       ("Lone figure removed");
 
     // Test a figure with three children
-    fig = new figure.Figure('test/people', ['john', 'sally', 'frank']);
+    fig = new figure.Figure('tmp/people', ['john', 'sally', 'frank']);
 
     // Make sure it was created properly
     assert.ok(fig instanceof figure.Figure, 
@@ -104,18 +104,18 @@ fig.create(function(){
     fig.create(function(){
 
       // Test parent
-      assert.ok(figure.Figure.isFigure('test/people'), 
+      assert.ok(figure.Figure.isFigure('tmp/people'), 
         "Figure people was not created");
 
       puts
         ("Figure with three children created");
 
       // Test children
-      assert.ok(figure.Figure.isFigure('test/people/john'), 
+      assert.ok(figure.Figure.isFigure('tmp/people/john'), 
         "Figure people/john was not created");
-      assert.ok(figure.Figure.isFigure('test/people/sally'), 
+      assert.ok(figure.Figure.isFigure('tmp/people/sally'), 
         "Figure people/sally was not created");
-      assert.ok(figure.Figure.isFigure('test/people/frank'), 
+      assert.ok(figure.Figure.isFigure('tmp/people/frank'), 
         "Figure people/frank was not created");
 
       puts
@@ -146,7 +146,7 @@ fig.create(function(){
           wasFigureDestroyed.call(this);
 
           // Test a figure with nested children
-          fig = new figure.Figure('test/company', [
+          fig = new figure.Figure('tmp/company', [
             'executives', 
             'management', 
             'directors[product,project]', 
@@ -162,38 +162,38 @@ fig.create(function(){
 
           fig.create(function(){
             // Test parent
-            assert.ok(figure.Figure.isFigure('test/company'), 
+            assert.ok(figure.Figure.isFigure('tmp/company'), 
               "Figure company was not created");
 
             // Assert direct descendants of parent
-            assert.ok(figure.Figure.isFigure('test/company/executives'), 
+            assert.ok(figure.Figure.isFigure('tmp/company/executives'), 
               "Figure company/executives was not created");
-            assert.ok(figure.Figure.isFigure('test/company/management'), 
+            assert.ok(figure.Figure.isFigure('tmp/company/management'), 
               "Figure company/management was not created");
-            assert.ok(figure.Figure.isFigure('test/company/directors'), 
+            assert.ok(figure.Figure.isFigure('tmp/company/directors'), 
               "Figure company/directors was not created");
-              assert.ok(figure.Figure.isFigure('test/company/directors/product'), 
+              assert.ok(figure.Figure.isFigure('tmp/company/directors/product'), 
                 "Figure company/directors/product was not created");
-              assert.ok(figure.Figure.isFigure('test/company/directors/project'), 
+              assert.ok(figure.Figure.isFigure('tmp/company/directors/project'), 
                 "Figure company/directors/project was not created");
 
-            assert.ok(figure.Figure.isFigure('test/company/managers'), 
+            assert.ok(figure.Figure.isFigure('tmp/company/managers'), 
               "Figure company/managers was not created");
-            assert.ok(figure.Figure.isFigure('test/company/workers'), 
+            assert.ok(figure.Figure.isFigure('tmp/company/workers'), 
               "Figure company/workers was not created");
-            assert.ok(figure.Figure.isFigure('test/company/operations'), 
+            assert.ok(figure.Figure.isFigure('tmp/company/operations'), 
               "Figure company/operations was not created");
-            assert.ok(figure.Figure.isFigure('test/company/clients'), 
+            assert.ok(figure.Figure.isFigure('tmp/company/clients'), 
               "Figure company/clients was not created");
-              assert.ok(figure.Figure.isFigure('test/company/clients/consumers'), 
+              assert.ok(figure.Figure.isFigure('tmp/company/clients/consumers'), 
                 "Figure company/clients/consumers was not created");
-              assert.ok(figure.Figure.isFigure('test/company/clients/partners'), 
+              assert.ok(figure.Figure.isFigure('tmp/company/clients/partners'), 
                 "Figure company/clients/partners was not created");
-              assert.ok(figure.Figure.isFigure('test/company/clients/traders'), 
+              assert.ok(figure.Figure.isFigure('tmp/company/clients/traders'), 
                 "Figure company/clients/traders was not created");
-                assert.ok(figure.Figure.isFigure('test/company/clients/traders/national'), 
+                assert.ok(figure.Figure.isFigure('tmp/company/clients/traders/national'), 
                   "Figure company/clients/traders/national was not created");
-                assert.ok(figure.Figure.isFigure('test/company/clients/traders/international'), 
+                assert.ok(figure.Figure.isFigure('tmp/company/clients/traders/international'), 
                   "Figure company/clients/traders/international was not created");
 
             warn
