@@ -7,7 +7,7 @@ A simple tool for creating and managing directory models
 
 ## Introduction
 `figure` is a command-line executable and a Node module. It can be used to create and manage directories, or what shall be referred to as
-figures. You can use it to create, remove, get info about a figure structure
+figures. You can use it to create, remove, and get info about a figure structure. It can support figure templates to model a creation after.
 
 ## Install
 ```sh
@@ -15,13 +15,18 @@ $ [sudo] npm install -g figure
 ```
 
 ## Usage
+Figures can be managed from Node or from the command line.
+
+### Creating
 Node:
 ```js
 var figure = require('figure');
+  , soldier = new figure.Figure('figures/soldier');
 
 // Create a figure module from node
-var soldier = new figure.Figure('figures/soldier');
-soldier.create();
+soldier.create(function(err){
+  // do something here
+});
 ```
 Command-line:
 ```sh
@@ -35,11 +40,14 @@ figure> Creating figure soldier
 $ cd soldier/
 ```
 
-### Child figures
+### Creating/adding child figures
+If the parent figure exists and the children do not, then the children are created.
 Node:
 ```js
 var people = new figure.Figure('figures/people', ['john', 'sally', 'frank']);
-people.create();
+people.create(function(err){
+  // do something here
+});
 ```
 Command-line:
 ```sh
@@ -53,6 +61,28 @@ figure> Destination /Users/werle/repos/figure/figures/people
 figure> Creating figure people
 $ cd people
 ```
+
+### Removing
+If the directory is not a figure (missing a .figure file), or it does not exist, it will not be removed with this tool.
+Node:
+```js
+var figure = require('figure');
+  , soldier = new figure.Figure('figures/soldier');
+
+soldier.remove(function(err){
+  // do something here
+})
+```
+Command-line:
+```sh
+$ cd figures/
+$ figure remove -n people
+```
+
+## Issues
+Found a bug?
+[Email](mailto:joseph@werle.io) or [submit](https://github.com/jwerle/figure/issues) all issues
+
 
 Copyright and license
 ---------------------
