@@ -1,0 +1,30 @@
+{
+  "name": "figure",
+  "version": "0.0.1",
+  "description": "Modular directory structure",
+  "keywords": [
+    "directory",
+    "structure",
+    "module",
+    "auto load"
+  ],
+  "author": "Jospeh Werle <joseph.werle@gmail.com>",
+  "scripts" : {
+    "test" : "make test"
+  },
+  "bin" : {
+    "figure" : "./bin/figure.js"
+  },
+  "dependencies": {
+    "utilities"     : "0.0.x",
+    "auto-loader"   : "0.0.x",
+    "colors"        : "0.6.0-1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jwerle/figure.git"
+  },
+  "engines": {
+    "node": ">= 0.6"
+  }
+}
