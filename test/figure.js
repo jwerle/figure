@@ -2,7 +2,7 @@ var figure = require('../')
   , assert = require('assert')
   , bin    = require('../bin/figure')
 
-var fig, children, success, figDestroyed, figCreated, puts, fail, die
+var fig, children, success, wasFigureDestroyed, wasFigureCreated, puts, fail, die
 
 // Borrowed from the bin executable
 puts  = bin.puts;
@@ -19,13 +19,13 @@ success = function() {
 };
 
 // Checks if figure is created
-figCreated = function(err, dir){
+wasFigureCreated = function(err, dir){
   // Was it really created?
   assert.ok(figure.Figure.isFigure(dir || this.directory || false), "Figure was not removed");
 }
 
 // Checks if figure is trashed
-figDestroyed = function(err, dir){
+wasFigureDestroyed = function(err, dir){
   // Was it really removed?
   assert.ok(!figure.Figure.isFigure(dir || this.directory || false), "Figure was not removed");
 }
@@ -48,7 +48,7 @@ warn
 // Attempt to create;
 fig.create(function(){
   // Was it really created?
-  figCreated(null, 'test/soldier');
+  wasFigureCreated(null, 'test/soldier');
 
   puts
     ("Lone figure created");
@@ -66,7 +66,7 @@ fig.create(function(){
     }
 
     // Was it really removed?
-    figDestroyed.call(this);
+    wasFigureDestroyed.call(this);
 
     puts
       ("Lone figure removed");
@@ -75,7 +75,8 @@ fig.create(function(){
     fig = new figure.Figure('test/people', ['john', 'sally', 'frank']);
 
     // Make sure it was created properly
-    assert.ok(fig instanceof figure.Figure, "Something went wrong while creating a figure");
+    assert.ok(fig instanceof figure.Figure, 
+      "Something went wrong while creating a figure");
 
     puts
       ("Figure with three children instantiated.");
@@ -87,15 +88,19 @@ fig.create(function(){
     fig.create(function(){
 
       // Test parent
-      assert.ok(figure.Figure.isFigure('test/people'), "Figure people was not created");
+      assert.ok(figure.Figure.isFigure('test/people'), 
+        "Figure people was not created");
 
       puts
         ("Figure with three children created");
 
       // Test children
-      assert.ok(figure.Figure.isFigure('test/people/john'), "Figure people/john was not created");
-      assert.ok(figure.Figure.isFigure('test/people/sally'), "Figure people/sally was not created");
-      assert.ok(figure.Figure.isFigure('test/people/frank'), "Figure people/frank was not created");
+      assert.ok(figure.Figure.isFigure('test/people/john'), 
+        "Figure people/john was not created");
+      assert.ok(figure.Figure.isFigure('test/people/sally'), 
+        "Figure people/sally was not created");
+      assert.ok(figure.Figure.isFigure('test/people/frank'), 
+        "Figure people/frank was not created");
 
       puts
         ("All children OK");
@@ -104,10 +109,10 @@ fig.create(function(){
         ("Attempting to trash all three children. Parent figure will remain intact");
 
       // Trash children
-      fig.children.get('john').remove(figDestroyed);
-      fig.children.get('sally').remove(figDestroyed);
+      fig.children.get('john').remove(wasFigureDestroyed);
+      fig.children.get('sally').remove(wasFigureDestroyed);
       fig.children.get('frank').remove(function(){
-        figDestroyed.call(this);
+        wasFigureDestroyed.call(this);
 
         puts
           ("Figure children removed");
@@ -122,7 +127,7 @@ fig.create(function(){
           }
 
           // Was it really removed?
-          figDestroyed.call(this);
+          wasFigureDestroyed.call(this);
 
           // Test a figure with nested children
           fig = new figure.Figure('test/company', [
@@ -136,11 +141,13 @@ fig.create(function(){
           ]);
 
           // Make sure it was created properly
-          assert.ok(fig instanceof figure.Figure, "Something went wrong while creating a figure");
+          assert.ok(fig instanceof figure.Figure, 
+            "Something went wrong while creating a figure");
 
           fig.create(function(){
             // Test parent
-            assert.ok(figure.Figure.isFigure('test/company'), "Figure company was not created");
+            assert.ok(figure.Figure.isFigure('test/company'), 
+              "Figure company was not created");
 
             // Assert direct descendants of parent
             assert.ok(figure.Figure.isFigure('test/company/executives'), 
