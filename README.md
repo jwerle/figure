@@ -15,11 +15,14 @@ $ [sudo] npm install -g figure
 ```
 
 ## Usage
+Node:
 ```js
+var figure = require('figure');
+
 // Create a figure module from node
-var fig = new figure.Figure('figures/soldier');
+var soldier = new figure.Figure('figures/soldier');
 ```
-You do this with the CLI utility too:
+Command-line:
 ```sh
 $ cd figures/
 $ figure create -n soldier
@@ -28,8 +31,17 @@ figure> Using engine(s) node/>= 0.6
 figure> Using path /Users/werle/repos/figure/figures
 figure> Destination /Users/werle/repos/figure/figures/soldier
 figure> Creating figure soldier
+$ cd soldier/
 ```
-## 
+
+### Child figures
+Node:
+```js
+var fig = new figure.Figure('test/people', ['john', 'sally', 'frank']);
+```
+Command-line:
+```sh
+```
 
 Copyright and license
 ---------------------

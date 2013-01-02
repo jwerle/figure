@@ -62,7 +62,7 @@ switch (cmds[0]) {
         ("Using children");
     }
 
-    fig = new figure.Figure(dest, (opts.children && [opts.children]) || false);
+    fig = new figure.Figure(dest, (opts.children && opts.children.split(',')) || false);
 
     puts
       ("Using path " + cwd.yellow)
