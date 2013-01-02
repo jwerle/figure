@@ -21,6 +21,7 @@ var figure = require('figure');
 
 // Create a figure module from node
 var soldier = new figure.Figure('figures/soldier');
+soldier.create();
 ```
 Command-line:
 ```sh
@@ -37,10 +38,20 @@ $ cd soldier/
 ### Child figures
 Node:
 ```js
-var fig = new figure.Figure('test/people', ['john', 'sally', 'frank']);
+var people = new figure.Figure('figures/people', ['john', 'sally', 'frank']);
+people.create();
 ```
 Command-line:
 ```sh
+$ cd figures/
+$ figure create -n people -c john,sally,frank
+figure> Using figure v0.0.6
+figure> Using engine(s) node/>= 0.6
+figure> Using children
+figure> Using path /Users/werle/repos/figure/figures/
+figure> Destination /Users/werle/repos/figure/figures/people
+figure> Creating figure people
+$ cd people
 ```
 
 Copyright and license
