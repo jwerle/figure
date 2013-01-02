@@ -55,16 +55,14 @@ switch (cmds[0]) {
     
     dest = path.join(cwd, name);
 
-    fig = new figure.Figure(dest, children);
+    
 
     if (opts.children && opts.children.length) {
       puts
         ("Using children");
-
-      opts.children.split(',').map(function(directory){
-        fig.children.push(new figure.Figure(directory, false, fig));
-      });
     }
+
+    fig = new figure.Figure(dest, (opts.children && [opts.children]) || false);
 
     puts
       ("Using path " + cwd.yellow)
