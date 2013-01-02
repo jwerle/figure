@@ -149,7 +149,6 @@ fig.create(function(){
               assert.ok(figure.Figure.isFigure('test/company/directors/product'), "Figure company/directors/product was not created");
               assert.ok(figure.Figure.isFigure('test/company/directors/project'), "Figure company/directors/project was not created");
 
-
             assert.ok(figure.Figure.isFigure('test/company/managers'), "Figure company/managers was not created");
             assert.ok(figure.Figure.isFigure('test/company/workers'), "Figure company/workers was not created");
             assert.ok(figure.Figure.isFigure('test/company/operations'), "Figure company/operations was not created");
