@@ -161,15 +161,6 @@ fig.create(function(){
             warn
               ("Attempting to remove parent figure");
 
-            var company = require('./company');
-
-            console.log('./company figure', JSON.stringify(company))
-
-            assert.equal(
-              JSON.stringify(company), 
-              '{"workers":{},"operations":{},"managers":{},"management":{},"executives":{},"directors":{"project":{},"product":{}},"clients":{"traders":{"national":{},"international":{}},"partners":{},"consumers":{}}}',
-              "Something went wrong when building the figure. Structure doesn't match.")
-
             // Trash parent
             fig.remove(function(err){
               if (err) {
