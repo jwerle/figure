@@ -3,19 +3,21 @@ require('colors');
 
 
 var parseopts, opts, cmds, cmd, args, parser, puts, name, fail, exec, cwd, pkg
-  , generateIndexFile, path, dest, figure, Figure, children
+  , generateIndexFile, path, dest, figure, Figure, children, die
 
-puts = function(msg) { console.log("figure> ".cyan + msg); return puts; }
-fail = function(msg) { puts(msg.red); process.exit(1); };
+puts = function(msg) { console.log("figure> ".cyan + (msg || "")); return puts; };
+fail = function(msg) { puts((msg || "").red); process.exit(1); };
+die  = function(msg) { puts((msg || "").yellow); process.exit(); };
 cwd  = process.cwd();
 args = process.argv.slice(2);
 opts = [
   {full : 'name', abbr: 'n', args : true},
   {full : 'version', abbr: 'v'},
-  {full : 'children', abbr: 'c'}
+  {full : 'children', abbr: 'c'},
+  {full : 'directory', abbr: 'd'}
 ];
 
-parseopts = require('../deps/parseopts');
+parseopts = require('../vendor/parseopts');
 pkg       = require('../package');
 path      = require('path');
 figure    = require('../lib/Figure');
@@ -28,11 +30,23 @@ parser.parse(args);
 cmds = parser.cmds;
 opts = parser.opts;
 
+if (opts.version) {
+  die(pkg.version);
+}
+
 puts
   ("Using figure " + "v".green + pkg.version.green)
   ("Using engine(s) " + Object.keys(pkg.engines).map(function(engine){ return engine.blue + "/" + pkg.engines[engine].green}).join(', '));
 
 switch (cmds[0]) {
+  case 'is' :
+    dest = opts.directory && opts.directory.length?
+            opts.directory :
+            fail("Missing destination directory to check.");
+
+    return figure.Figure.isFigure(dest)? die(dest + " is a valid figure directory.") : fail(dest + " is not a valid figure.");
+  break;
+
   case 'create' :
   case 'remove' :
     name = opts.name && opts.name.length? 
