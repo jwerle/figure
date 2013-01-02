@@ -1,11 +1,19 @@
 #!/usr/bin/env node
 require('colors');
 
-
 var parseopts, opts, cmds, cmd, args, parser, puts, name, fail, exec, cwd, pkg
-  , generateIndexFile, path, dest, figure, Figure, children, die
+  , generateIndexFile, path, dest, figure, Figure, children, die, prompt
 
-puts = function(msg) { console.log("figure> ".cyan + (msg || "")); return puts; };
+children  = [];
+prompt    = "figure> ";
+
+parseopts = require('../vendor/parseopts');
+pkg       = require('../package');
+path      = require('path');
+figure    = require('../lib/Figure');
+
+puts = function(msg) { console.log(prompt.cyan + (msg || "")); return puts; };
+warn = function(msg) { console.warn(prompt.green + (msg || "").yellow); return warn; };
 fail = function(msg) { puts((msg || "").red); process.exit(1); };
 die  = function(msg) { puts((msg || "").yellow); process.exit(); };
 cwd  = process.cwd();
@@ -17,15 +25,7 @@ opts = [
   {full : 'directory', abbr: 'd'}
 ];
 
-parseopts = require('../vendor/parseopts');
-pkg       = require('../package');
-path      = require('path');
-figure    = require('../lib/Figure');
-
-children  = [];
-parser    = new parseopts.Parser(opts);
-
-parser.parse(args);
+(parser = new parseopts.Parser(opts)) && parser.parse(args);
 
 cmds = parser.cmds;
 opts = parser.opts;
@@ -39,18 +39,18 @@ puts
   ("Using engine(s) " + Object.keys(pkg.engines).map(function(engine){ return engine.blue + "/" + pkg.engines[engine].green}).join(', '));
 
 switch (cmds[0]) {
-  case 'is' :
+  case 'is' : case 'check' :
     dest = opts.directory && opts.directory.length?
-            opts.directory :
+            opts.directory.replace(/\/|\\/g, '') :
             fail("Missing destination directory to check.");
 
     return figure.Figure.isFigure(dest)? die(dest + " is a valid figure directory.") : fail(dest + " is not a valid figure.");
   break;
 
-  case 'create' :
-  case 'remove' :
+  case 'create' : case 'new' :
+  case 'remove' : case 'destroy' :
     name = opts.name && opts.name.length? 
-            opts.name : 
+            opts.name.replace(/\/|\\/g, '') : 
             fail("Missing name");
     
     dest = path.join(cwd, name);
@@ -72,14 +72,14 @@ switch (cmds[0]) {
 
 
     switch (cmds[0]) {
-      case 'create' :
+      case 'create' : case 'new' :
         puts
           ("Creating figure ".blue + name.green);
 
         fig.create();
       break;
 
-      case 'remove' :
+      case 'remove' : case 'destroy' :
         if (fig.children.length) {
           fig.children.forEach(function(child){
             puts
@@ -99,3 +99,8 @@ switch (cmds[0]) {
     }
   break;
 }
+
+module.exports.puts   = puts;
+module.exports.warn   = warn;
+module.exports.fail   = fail;
+module.exports.die    = die;

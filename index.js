@@ -1,1 +1,1 @@
-module.exports = require('auto-loader').load('./lib').lib;
+module.exports = require('auto-loader').load(__dirname + '/lib').lib;

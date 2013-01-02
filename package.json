@@ -1,7 +1,7 @@
 {
   "name": "figure",
-  "version": "0.0.1",
-  "description": "Modular directory structure",
+  "version": "0.0.2",
+  "description": "A Modular and manageable directory structure utilitity.",
   "keywords": [
     "directory",
     "structure",
