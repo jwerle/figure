@@ -7,27 +7,43 @@ var fig, children, success, wasFigureDestroyed, wasFigureCreated, puts, fail, di
 // Borrowed from the bin executable
 puts  = bin.puts;
 warn  = bin.warn;
-fail = bin.fail;
+fail  = bin.fail;
 die   = bin.die;
 
 // Success callback
 success = function() {
   // Test OK
-  console.log("Test passed ok");
+  puts
+    ("Test OK".blue);
+
   // Leave
   process.exit();
 };
 
 // Checks if figure is created
-wasFigureCreated = function(err, dir){
+wasFigureCreated = function(err, dir) {
+  if (err) {
+    warn (err.toString());
+    throw err;
+  }
+
   // Was it really created?
   assert.ok(figure.Figure.isFigure(dir || this.directory || false), "Figure was not removed");
+
+  warn ("Figure created")
 }
 
 // Checks if figure is trashed
-wasFigureDestroyed = function(err, dir){
+wasFigureDestroyed = function(err, dir) {
+  if (err) {
+    warn (err.toString());
+    throw err;
+  }
+
   // Was it really removed?
   assert.ok(!figure.Figure.isFigure(dir || this.directory || false), "Figure was not removed");
+
+  warn ("Figure destroyed")
 }
 
 puts

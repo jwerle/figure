@@ -14,7 +14,7 @@ figure    = require('../lib/Figure');
 
 puts = function(msg) { console.log(prompt.cyan + (msg || "")); return puts; };
 warn = function(msg) { console.warn(prompt.green + (msg || "").yellow); return warn; };
-fail = function(msg) { puts((msg || "").red); process.exit(1); };
+fail = function(msg) { console.error(prompt.red + (msg || "").toUpperCase().red.inverse); process.exit(1); };
 die  = function(msg) { puts((msg || "").yellow); process.exit(); };
 cwd  = process.cwd();
 args = process.argv.slice(2);
