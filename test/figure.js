@@ -163,6 +163,8 @@ fig.create(function(){
 
             var company = require('./company');
 
+            console.log('./company figure', JSON.stringify(company))
+
             assert.equal(
               JSON.stringify(company), 
               '{"workers":{},"operations":{},"managers":{},"management":{},"executives":{},"directors":{"project":{},"product":{}},"clients":{"traders":{"national":{},"international":{}},"partners":{},"consumers":{}}}',

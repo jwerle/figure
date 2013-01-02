@@ -28,6 +28,7 @@ figure> Using engine(s) node/>= 0.6
 figure> Using path /Users/werle/repos/figure/figures
 figure> Destination /Users/werle/repos/figure/figures/soldier
 figure> Creating figure soldier
+```
 ## 
 
 Copyright and license
