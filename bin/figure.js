@@ -2,7 +2,8 @@
 require('colors');
 
 var parseopts, opts, cmds, cmd, args, parser, puts, name, fail, exec, cwd, pkg
-  , generateIndexFile, path, dest, figure, Figure, children, die, prompt
+  , generateIndexFile, path, dest, figure, Figure, children, die, prompt, file
+  , stat, utils
 
 children  = [];
 prompt    = "figure> ";
@@ -11,10 +12,12 @@ parseopts = require('../vendor/parseopts');
 pkg       = require('../package');
 path      = require('path');
 figure    = require('../lib/Figure');
+utils     = require('utilities');
+stat      = require('auto-loader/lib/utils').stat;
 
 puts = function(msg) { console.log(prompt.cyan + (msg || "")); return puts; };
 warn = function(msg) { console.warn(prompt.green + (msg || "").yellow); return warn; };
-fail = function(msg) { console.error(prompt.red + (msg || "").toUpperCase().red.inverse); process.exit(1); };
+fail = function(msg, inverse) { console.error(prompt.red + ((msg || "").toUpperCase()).red); process.exit(1); };
 die  = function(msg) { puts((msg || "").yellow); process.exit(); };
 cwd  = process.cwd();
 args = process.argv.slice(2);
@@ -22,7 +25,8 @@ opts = [
   {full : 'name', abbr: 'n', args : true},
   {full : 'version', abbr: 'v'},
   {full : 'children', abbr: 'c'},
-  {full : 'directory', abbr: 'd'}
+  {full : 'directory', abbr: 'd'},
+  {full : 'file', abbr: 'f'}
 ];
 
 (parser = new parseopts.Parser(opts)) && parser.parse(args);
@@ -49,9 +53,9 @@ switch (cmds[0]) {
 
   case 'create' : case 'new' :
   case 'remove' : case 'destroy' :
-    name = opts.name && opts.name.length? 
-            opts.name.replace(/\/|\\/g, '') : 
-            fail("Missing name");
+    name = (opts.name && opts.name.length) &&  
+            opts.name.replace(/\/|\\/g, '') || 
+            void fail("Missing name");
     
     dest = path.join(cwd, name);
 
@@ -95,6 +99,34 @@ switch (cmds[0]) {
 
       break;
     }
+  break;
+
+  case 'use' :
+    file = (((opts.file && opts.file.length) && (file = path.join(cwd, opts.file))) && 
+            ((stat(file))
+              || (stat(file + '.js') && (file += '.js'))
+              || (stat(file + '.sh') && (file += '.sh'))))
+            && file
+            || void fail("Missing valid file.", false);
+
+    switch (path.extname(file)) {
+      case '.js' :
+        utils.mixin(global, figure);
+        void puts
+            ("Using file " + file.blue);
+        require(file);
+      break;
+
+      case '.sh' : case '' :
+
+      break;
+
+      default :
+        void fail("Unable to handle file")
+      break;
+    }
+  
+
   break;
 }
 
