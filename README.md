@@ -79,6 +79,17 @@ $ cd figures/
 $ figure remove -n people
 ```
 
+## API
+`create(callback)` - Creates a new figure. Accepts
+
+## CLI
+`$ figure create` Creates a new figure. Takes in a
+### Options
+#### name
+Use the name `-n` flag to define the name of the figure.
+  * children `-c` - A CSV of children.
+
+
 ## Issues
 Found a bug?
 [Email](mailto:joseph@werle.io) or [submit](https://github.com/jwerle/figure/issues) all issues
