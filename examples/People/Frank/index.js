@@ -1,1 +1,1 @@
-module.exports = require('auto-loader').load('/Users/werle/repos/figure/examples/People/Frank')['Frank']
+module.exports = require('auto-loader').load(__dirname)['Frank']

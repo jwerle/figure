@@ -1,1 +1,1 @@
-module.exports = require('auto-loader').load('People')['People']
+module.exports = require('auto-loader').load(__dirname)['People']
