@@ -20,15 +20,25 @@ $ [sudo] npm install -g auto-loader
 $ [sudo] npm install -g figure
 ```
 
-## Uusage
+## api
 figures can be managed from Node or the command line.
+##### sh
 ```sh
 $ figure [create|remove|use|check] [-f] --file [-d] --directory [-n] name
+```
+they can also be managed in nodejs
+##### js
+```js
+var Figure = require('figure').Figure
+var figure = new Figure(directory, [childFigures], parentFigure);
+```
 
-...
+##### sh
+accepts a name argument `-n <name>` and an optional children argument `-c [children,]`
 
+```sh
 $ figure create -n app -c controllers[utils],models,view[helpers]
-$  $ tree app/
+$ tree app/
 app/
 ├── controllers
 │   ├── index.js
@@ -45,16 +55,46 @@ app/
 5 directories, 6 files
 
 ...
+```
+##### js
+accepts a callback function. if an error occurs, then it will be delegated to the callback.
+```js
+// create
+figure.create(function(err){
+    if (err) {
+        throw err;
+    }
+    
+    // do something here
+});
+```
 
+##### sh
+removes a valid figure directory
+accepts a name argument `-n <name>`.
+```sh
 $ figure remove -n app
-...
 figure> Removing figure app
 
 ...
+```
+##### js
+accepts a callback function. if an error occurs, then it will be delegated to the callback.
+```js
+figure.remove(function(err){
+    if (err) {
+        throw err;
+    }
+    
+    // do something here
+});
+```
 
+accepts a `-f` filepath argument to execute as a node module. the figure module is global to the script.
+```sh
 $ figure use -f ./examples/application.js
 $ cd examples/
- $ tree app
+$ tree app
 app
 ├── controllers
 │   ├── helpers
@@ -83,47 +123,49 @@ app
 11 directories, 12 files
 
 ...
+```
+##### js
+accepts a filepath argument to execute as a node module. the figure module is global to the script.
+```js
+figure.use(filepath);
+```
 
+accepts a `-d` directory filepath argument to validate as a Figure. exits with `code 1` if not valid
+```sh
 $ figure check -d app/
 figure> Using figure v0.0.9
 figure> Using engine(s) node/>= 0.6
 figure> app is a valid figure directory.
+
 ...
+
 $ figure check -d figures/
 figure> Using figure v0.0.9
 figure> Using engine(s) node/>= 0.6
 figure> FIGURES IS NOT A VALID FIGURE.
 
 ```
+##### js
+accepts a directory filepath or Figure instance as an argument to validate as a valid Figure directory. returns `true` or `false`
 ```js
-var Figure   = require('figure').Figure
-  ...
+// returns 'true' or 'false'
+Figure.isFigure('./figures/messages');
+    // or
+figure = new Figure('./figures/messages');
 
-var figure = new Figure(directory, [childFigures], parentFigure);
-
-// create
-figure.create(callback);
-
-// remove
-figure.remove(callback);
-
-// use a file
-figure.use(filePath);
-
-// check figure directory
-Figure.isFigure(directoryPath);
+Figure.isFigure(figure);
 ```
 
 ### creating/adding child figures
-if the parent figure exists and the children do not, then the children are created.
-node:
-```js
-var people = new figure.Figure('figures/people', ['john', 'sally', 'frank']);
-people.create(function(err){
-  // do something here
-});
-```
-Command-line:
+###### if the parent figure exists and the children do not, then the children are created.
+##### sh
+* accepts a name argument `-n <name>` and an optional children argument `-c [children,]`
+
+nested children can be achieved with `[]` brackets: 
+
+`$ figure create -n app -c controllers[utils],models,view[helpers]` 
+
+This will create a directory structure similar to the [one found in the examples](https://github.com/jwerle/figure/tree/master/examples/app) directory.
 ```sh
 $ cd figures/
 $ figure create -n people -c john,sally,frank
@@ -142,15 +184,29 @@ people/
 
 3 directories, 4 files
 ```
+##### js
+accepts a directory path and an array of child figure names or Figure instances. the following structure would look like this after being created
 
-## api
-* Figure(directory, [childFigures], parentFigure) 
-* create - Creates the figure directory structure.
+```sh
+people/
+├── frank
+│   └── index.js
+├── index.js
+├── john
+│   └── index.js
+└── sally
+    └── index.js
+```
+```js
+var people = new figure.Figure('figures/people', ['john', 'sally', 'frank']);
+people.create(function(err){
+  // do something here
+});
+```
 
 ## Issues
 Found a bug?
 [Email](mailto:joseph@werle.io) or [submit](https://github.com/jwerle/figure/issues) all issues
-
 
 Copyright and license
 ---------------------
