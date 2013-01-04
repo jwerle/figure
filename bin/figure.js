@@ -45,7 +45,7 @@ puts
 switch (cmds[0]) {
   case 'is' : case 'check' :
     dest = opts.directory && opts.directory.length?
-            opts.directory.replace(/\/|\\/g, '') :
+            opts.directory :
             fail("Missing destination directory to check.");
 
     return figure.Figure.isFigure(dest)? die(dest + " is a valid figure directory.") : fail(dest + " is not a valid figure.");
@@ -54,7 +54,7 @@ switch (cmds[0]) {
   case 'create' : case 'new' :
   case 'remove' : case 'destroy' :
     name = (opts.name && opts.name.length) &&  
-            opts.name.replace(/\/|\\/g, '') || 
+            opts.name || 
             void fail("Missing name");
     
     dest = path.join(cwd, name);
