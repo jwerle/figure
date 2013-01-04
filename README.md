@@ -6,34 +6,41 @@ a simple tool for creating and managing directory models
 [![Build Status](https://travis-ci.org/jwerle/figure.png)](https://travis-ci.org/jwerle/figure)
 
 ## introduction
-`figure` is a command-line executable and Node module. It can be used to create and manage directories, or what shall be referred to as
+`figure` is a command-line executable and Node module. 
+It can be used to create and manage directories, or what shall be referred to as
 figures. You can use it to create, remove, and get info about a figure structure.
 
 ## requirements
-figure writes code to `index.js` in each figure that requires [node-auto-loader](https://github.com/jwerle/node-auto-loader) to be installed globally.
+`figure(1)` writes javascript to `index.js` in each figure that is created. each requires [node-auto-loader](https://github.com/jwerle/node-auto-loader) to be installed globally.
 ```sh
 $ [sudo] npm install -g auto-loader
 ```
 
 ## install
+you are going to want this installed globally
 ```sh
 $ [sudo] npm install -g figure
 ```
 
 ## api
 figures can be managed from Node or the command line.
-##### sh
+#### shell
 ```sh
 $ figure [create|remove|use|check] [-f] --file [-d] --directory [-n] name
 ```
 they can also be managed in nodejs
-##### js
+#### node
 ```js
 var Figure = require('figure').Figure
 var figure = new Figure(directory, [childFigures], parentFigure);
 ```
 
-##### sh
+---
+
+# create()
+___
+
+#### shell
 accepts a name argument `-n <name>` and an optional children argument `-c [children,]`
 
 ```sh
@@ -56,7 +63,7 @@ app/
 
 ...
 ```
-##### js
+### javascript
 accepts a callback function. if an error occurs, then it will be delegated to the callback.
 ```js
 // create
@@ -69,7 +76,12 @@ figure.create(function(err){
 });
 ```
 
-##### sh
+---
+
+# remove()
+___
+
+### shell
 removes a valid figure directory
 accepts a name argument `-n <name>`.
 ```sh
@@ -78,7 +90,7 @@ figure> Removing figure app
 
 ...
 ```
-##### js
+### javascript
 accepts a callback function. if an error occurs, then it will be delegated to the callback.
 ```js
 figure.remove(function(err){
@@ -90,6 +102,12 @@ figure.remove(function(err){
 });
 ```
 
+---
+
+# use()
+___
+
+### shell
 accepts a `-f` filepath argument to execute as a node module. the figure module is global to the script.
 ```sh
 $ figure use -f ./examples/application.js
@@ -124,12 +142,18 @@ app
 
 ...
 ```
-##### js
+### javascript
 accepts a filepath argument to execute as a node module. the figure module is global to the script.
 ```js
 figure.use(filepath);
 ```
 
+---
+
+# check()
+___
+
+### shell
 accepts a `-d` directory filepath argument to validate as a Figure. exits with `code 1` if not valid
 ```sh
 $ figure check -d app/
@@ -145,20 +169,23 @@ figure> Using engine(s) node/>= 0.6
 figure> FIGURES IS NOT A VALID FIGURE.
 
 ```
-##### js
+### javascript
 accepts a directory filepath or Figure instance as an argument to validate as a valid Figure directory. returns `true` or `false`
 ```js
 // returns 'true' or 'false'
 Figure.isFigure('./figures/messages');
     // or
+Figure.check('./figures/messages')
+    // or
 figure = new Figure('./figures/messages');
-
-Figure.isFigure(figure);
+Figure.isFigure(figure); 
+    // or
+Figure.check(figure);
 ```
 
-### creating/adding child figures
+## creating/adding child figures
 ###### if the parent figure exists and the children do not, then the children are created.
-##### sh
+### shell
 * accepts a name argument `-n <name>` and an optional children argument `-c [children,]`
 
 nested children can be achieved with `[]` brackets: 
@@ -184,7 +211,7 @@ people/
 
 3 directories, 4 files
 ```
-##### js
+### javascript
 accepts a directory path and an array of child figure names or Figure instances. the following structure would look like this after being created
 
 ```sh
