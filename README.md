@@ -63,7 +63,7 @@ app/
 
 ...
 ```
-### javascript
+### node
 accepts a callback function. if an error occurs, then it will be delegated to the callback.
 ```js
 // create
@@ -90,7 +90,7 @@ figure> Removing figure app
 
 ...
 ```
-### javascript
+### node
 accepts a callback function. if an error occurs, then it will be delegated to the callback.
 ```js
 figure.remove(function(err){
@@ -142,7 +142,7 @@ app
 
 ...
 ```
-### javascript
+### node
 accepts a filepath argument to execute as a node module. the figure module is global to the script.
 ```js
 figure.use(filepath);
@@ -169,7 +169,7 @@ figure> Using engine(s) node/>= 0.6
 figure> FIGURES IS NOT A VALID FIGURE.
 
 ```
-### javascript
+### node
 accepts a directory filepath or Figure instance as an argument to validate as a valid Figure directory. returns `true` or `false`
 ```js
 // returns 'true' or 'false'
@@ -211,7 +211,7 @@ people/
 
 3 directories, 4 files
 ```
-### javascript
+### node
 accepts a directory path and an array of child figure names or Figure instances. the following structure would look like this after being created
 
 ```sh
