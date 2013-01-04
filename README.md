@@ -1,48 +1,122 @@
 figure(1)
 ======
 
-A simple tool for creating and managing directory models
+a simple tool for creating and managing directory models
 
 [![Build Status](https://travis-ci.org/jwerle/figure.png)](https://travis-ci.org/jwerle/figure)
 
-## Introduction
-`figure` is a command-line executable and a Node module. It can be used to create and manage directories, or what shall be referred to as
-figures. You can use it to create, remove, and get info about a figure structure. It can support figure templates to model a creation after.
+## introduction
+`figure` is a command-line executable and Node module. It can be used to create and manage directories, or what shall be referred to as
+figures. You can use it to create, remove, and get info about a figure structure.
 
-## Install
+## requirements
+figure writes code to `index.js` in each figure that requires [node-auto-loader](https://github.com/jwerle/node-auto-loader) to be installed globally.
+```sh
+$ [sudo] npm install -g auto-loader
+```
+
+## install
 ```sh
 $ [sudo] npm install -g figure
 ```
 
-## Usage
-Figures can be managed from Node or from the command line.
-
-### Creating
-Node:
-```js
-var figure = require('figure');
-  , soldier = new figure.Figure('figures/soldier');
-
-// Create a figure module from node
-soldier.create(function(err){
-  // do something here
-});
-```
-Command-line:
+## Uusage
+figures can be managed from Node or the command line.
 ```sh
-$ cd figures/
-$ figure create -n soldier
-figure> Using figure v0.0.5
+$ figure [create|remove|use|check] [-f] --file [-d] --directory [-n] name
+
+...
+
+$ figure create -n app -c controllers[utils],models,view[helpers]
+$  $ tree app/
+app/
+├── controllers
+│   ├── index.js
+│   └── utils
+│       └── index.js
+├── index.js
+├── models
+│   └── index.js
+└── view
+    ├── helpers
+    │   └── index.js
+    └── index.js
+
+5 directories, 6 files
+
+...
+
+$ figure remove -n app
+...
+figure> Removing figure app
+
+...
+
+$ figure use -f ./examples/application.js
+$ cd examples/
+ $ tree app
+app
+├── controllers
+│   ├── helpers
+│   │   └── index.js
+│   ├── index.js
+│   └── utils
+│       └── index.js
+├── helpers
+│   └── index.js
+├── index.js
+├── models
+│   ├── helpers
+│   │   └── index.js
+│   ├── index.js
+│   └── utils
+│       └── index.js
+├── utils
+│   └── index.js
+└── views
+    ├── helpers
+    │   └── index.js
+    ├── index.js
+    └── utils
+        └── index.js
+
+11 directories, 12 files
+
+...
+
+$ figure check -d app/
+figure> Using figure v0.0.9
 figure> Using engine(s) node/>= 0.6
-figure> Using path /Users/werle/repos/figure/figures
-figure> Destination /Users/werle/repos/figure/figures/soldier
-figure> Creating figure soldier
-$ cd soldier/
+figure> app is a valid figure directory.
+...
+$ figure check -d figures/
+figure> Using figure v0.0.9
+figure> Using engine(s) node/>= 0.6
+figure> FIGURES IS NOT A VALID FIGURE.
+
+```
+```js
+var Figure   = require('figure').Figure
+  ...
+
+var figure = new Figure(directory, [childFigures], parentFigure);
+
+// create
+figure.create(callback);
+
+// remove
+figure.remove(callback);
+
+// use a file
+figure.use(filePath);
+
+// check figure directory
+Figure.isFigure(directoryPath);
 ```
 
-### Creating/adding child figures
-If the parent figure exists and the children do not, then the children are created.
-Node:
+### creating/adding child figures
+if the parent figure exists and the children do not, then the children are created.
+node:
 ```js
 var people = new figure.Figure('figures/people', ['john', 'sally', 'frank']);
 people.create(function(err){
@@ -53,42 +127,25 @@ Command-line:
 ```sh
 $ cd figures/
 $ figure create -n people -c john,sally,frank
-figure> Using figure v0.0.6
-figure> Using engine(s) node/>= 0.6
-figure> Using children
-figure> Using path /Users/werle/repos/figure/figures/
-figure> Destination /Users/werle/repos/figure/figures/people
+...
+
 figure> Creating figure people
-$ cd people
+$ tree people/
+people/
+├── frank
+│   └── index.js
+├── index.js
+├── john
+│   └── index.js
+└── sally
+    └── index.js
+
+3 directories, 4 files
 ```
 
-### Removing
-If the directory is not a figure (missing a .figure file), or it does not exist, it will not be removed with this tool.
-Node:
-```js
-var figure = require('figure');
-  , soldier = new figure.Figure('figures/soldier');
-
-soldier.remove(function(err){
-  // do something here
-})
-```
-Command-line:
-```sh
-$ cd figures/
-$ figure remove -n people
-```
-
-## API
-`create(callback)` - Creates a new figure. Accepts
-
-## CLI
-`$ figure create` Creates a new figure. Takes in a
-### Options
-#### name
-Use the name `-n` flag to define the name of the figure.
-  * children `-c` - A CSV of children.
-
+## api
+* Figure(directory, [childFigures], parentFigure) 
+* create - Creates the figure directory structure.
 
 ## Issues
 Found a bug?

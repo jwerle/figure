@@ -113,10 +113,10 @@ switch (cmds[0]) {
 
     switch (path.extname(file)) {
       case '.js' :
-        utils.mixin(global, figure);
         void puts
             ("Using file " + file.blue);
-        require(file);
+
+        figure.use(file)
       break;
 
       case '.sh' : case '' :
