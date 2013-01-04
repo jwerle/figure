@@ -62,11 +62,13 @@ switch (cmds[0]) {
     
 
     if (opts.children && opts.children.length) {
-      puts
-        ("Using children");
-    }
+      void puts ("Using children");
 
-    fig = new figure.Figure(dest, (opts.children && opts.children.split(',')) || false);
+      fig = new figure.Figure(dest +'['+ opts.children +']');
+    }
+    else {
+      fig = new figure.Figure(dest);
+    }
 
     puts
       ("Using path " + cwd.yellow)

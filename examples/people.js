@@ -1,18 +1,21 @@
+#!/usr/bin/env figure use -f
+
 var people, sally, frank, jim, sarah, children, hobbies
+children = ['John', 'Billy'];
 
+people   = new Figure('People');
+sarah    = new Figure('Sarah', ['Sammy', 'Hank']);
+jim      = new Figure('Jim', false, people);
+sally    = new Figure('Sally', children, people);
+frank    = new Figure('Frank', children, people);
 
-children = [
-  new Figure('Sarah', ['Sammy', 'Hank']), 
-  'John', 
-  'Billy'
-];
+sally.shares(sarah);
+frank.shares(sarah);
 
-sally    = new Figure('Sally', children);
+people.create(function(err){
+  if (err){
+    throw err;
+  }
 
-
-
-frank    = new Figure('Frank', children);
-jim      = new Figure('Jim');
-people   = new Figure('People', [sally, frank, jim]);
-
-//console.log(people.get('Sally'))
+  console.log('people made');
+});
