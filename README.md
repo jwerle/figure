@@ -16,6 +16,9 @@ figures. You can use it to create, remove, and get info about a figure structure
 $ [sudo] npm install -g auto-loader
 ```
 
+## documentation
+[JSDoc.info - Figure](http://jsdoc.info/jwerle/figure/)
+
 ## install
 you are going to want this installed globally
 ```sh
